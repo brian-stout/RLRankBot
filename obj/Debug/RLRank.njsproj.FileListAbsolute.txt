@@ -1,3 +1,0 @@
-C:\Users\darkc\Desktop\bot\obj\Debug\RLRank.njsprojAssemblyReference.cache
-C:\Users\darkc\Desktop\bot\obj\Debug\RLRank.njsproj.CoreCompileInputs.cache
-C:\Users\darkc\Desktop\bot\bin\Microsoft.NodejsTools.WebRole.dll
