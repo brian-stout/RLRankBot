@@ -25,20 +25,26 @@ client.on('ready', () => {
     console.log('I am ready!');
 });
 
-client.on('ready', function (evt) {
-    logger.info('Connected');
-});
-
 // Create an event listener for messages
 client.on('message', message => {
     // Process ! commands
     if (message.content.substring(0, 1) == '!') {
-        processCommand(message.content);
+        processCommand(client, message);
     }
 });
 
-function processCommand(command) {
-    console.log(command)
+function processCommand(client, message) {
+    var args = message.content.substring(1).split(' ');
+    var cmd = args[0];
+
+    args = args.splice(1);
+
+    switch (cmd) {
+        case 'ping':
+            message.channel.send('pong');
+            console.log(args);
+            break;
+    }
 };
 
 // Log our bot in using the token from https://discordapp.com/developers/applications/me
