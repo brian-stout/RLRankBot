@@ -5,9 +5,6 @@ const request = require('request');
 const cheerio = require('cheerio'),
     cheerioTableparser = require('cheerio-tableparser');
 
-
-// The REGEX: \{\sname:\s\'.*\',\sdata:\s\[((\d){3,4}(,)?){5,6}\]\s\}
-
 // Create an instance of a Discord client
 const client = new Discord.Client();
 
@@ -48,7 +45,8 @@ async function getRank(platform, id) {
     return new Promise(function (resolve, reject) {
 
         request(string, function (error, response, body) {
-            var regex = /\{\sname:\s\'[\w\s\-]+\',\sdata:\s\[((\d){3,4}(,)?){0,6}\]\s\}/g;
+
+            var regex = /\{\sname:\s\'[\w\s\-]+\',\sdata:\s\[((\d){0,4}(,)?){0,10}\]\s\}/g;
             var ranks = { "unranked": 0, "1v1": 0, "2v2": 0, "3v3": 0, "solo3v3": 0, "hoops": 0, "rumble": 0, "dropshot": 0, "snowday": 0 };
             var result;
 
