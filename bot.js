@@ -33,8 +33,13 @@ async function processCommand(client, message) {
             break;
         case 'rank':
             var rank = await getRank(arg[0], arg[1]);
-            var highestRank = await getHighestRank(rank);
-            message.channel.send(highestRank);
+            if (rank == false) {
+                message.channel.send('Could not find user ' + arg[1]);
+            }
+            else {
+                var highestRank = await getHighestRank(rank);
+                message.channel.send(highestRank);
+            }
             break;
     }
 };
@@ -46,8 +51,15 @@ async function getRank(platform, id) {
 
         request(string, function (error, response, body) {
 
-            var regex = /\{\sname:\s\'[\w\s\-]+\',\sdata:\s\[((\d){0,4}(,)?){0,10}\]\s\}/g;
             var ranks = { "unranked": 0, "1v1": 0, "2v2": 0, "3v3": 0, "solo3v3": 0, "hoops": 0, "rumble": 0, "dropshot": 0, "snowday": 0 };
+
+            var accountDoesNotExist = body.includes('We could not find your stats, please ensure your platform and name are correct');
+            if (accountDoesNotExist == true) {
+                ranks = false;
+                resolve(ranks);
+            }
+
+            var regex = /\{\sname:\s\'[\w\s\-]+\',\sdata:\s\[((\d){0,4}(,)?){0,10}\]\s\}/g;
             var result;
 
             do {
@@ -62,30 +74,48 @@ async function getRank(platform, id) {
 
                     switch (result["name"]) {
                         case 'Un-Ranked':
-                            ranks["unranked"] = result["data"];
+                            if (ranks["unranked"] == 0) {
+                                ranks["unranked"] = result["data"];
+                            }
                             break;
                         case 'Ranked Duel 1v1':
-                            ranks["1v1"] = result["data"];
+                            if (ranks["1v1"] == 0) {
+                                ranks["1v1"] = result["data"];
+                            }
                         case 'Ranked Doubles 2v2':
-                            ranks["2v2"] = result["data"];
+                            if (ranks["2v2"] == 0) {
+                                ranks["2v2"] = result["data"];
+                            }
                             break;
                         case 'Ranked Standard 3v3':
-                            ranks["3v3"] = result["data"];
+                            if (ranks["3v3"] == 0) {
+                                ranks["3v3"] = result["data"];
+                            }
                             break;
                         case 'Ranked Solo Standard 3v3':
-                            ranks["solo3v3"] = result["data"];
+                            if (ranks["solo3v3"] == 0) {
+                                ranks["solo3v3"] = result["data"];
+                            }
                             break;
                         case 'Hoops':
-                            ranks["hoops"] = result["data"];
+                            if (ranks["hoops"] == 0) {
+                                ranks["hoops"] = result["data"];
+                            }
                             break;
                         case 'Rumble':
-                            ranks["rumble"] = result["data"];
+                            if (ranks["rumble"] == 0) {
+                                ranks["rumble"] = result["data"];
+                            }
                             break;
                         case 'Dropshot':
-                            ranks["dropshot"] = result["data"];
+                            if (ranks["dropshot"] == 0) {
+                                ranks["dropshot"] = result["data"];
+                            }
                             break;
                         case 'Snowday':
-                            ranks["snowday"] = result["data"];
+                            if (ranks["snowday"] == 0) {
+                                ranks["snowday"] = result["data"];
+                            }
                             break;
                     }
                 }
